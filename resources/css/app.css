@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+button, .button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+button:hover, .button:hover{
+    background-color: #f0f0f0;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+table th, table td{
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+table th{
+    background-color: #f8f8f8;
+}
+textarea{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height:6em;
+}
