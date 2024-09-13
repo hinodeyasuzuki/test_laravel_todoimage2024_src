@@ -51,25 +51,42 @@
             Italic,
             Font,
             Image,
+            ImageCaption,
+            ImageResize,
             ImageStyle,
+            ImageToolbar,
             ImageUpload,
             Link,
             List,
+            ListProperties,
             Table,
+            TableColumnResize,
+	TableToolbar,
             Indent,
             IndentBlock,
-            SimpleUploadAdapter 
+            SimpleUploadAdapter
         } from 'ckeditor5';
 
 
         ClassicEditor
             .create(document.querySelector('#editor'), {
-                plugins: [SimpleUploadAdapter, Essentials, Paragraph, Heading, Bold, Italic, Font, Image, ImageUpload, Link, Indent, IndentBlock, List, Table],
+                plugins: [
+                    SimpleUploadAdapter,
+                    Essentials,
+                    Paragraph, Heading, Bold, Italic,
+                    Font,
+                    Image, ImageUpload,ImageCaption,ImageResize,ImageStyle,ImageToolbar,
+
+                    Link, Indent, IndentBlock, 
+                    List, ListProperties, 
+                    Table,	TableColumnResize, TableToolbar,
+
+                ],
                 toolbar: [
                     'undo', 'redo', '|', 'heading', 'bold', 'italic', '|',
                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
                     '|',
-                    'link', 'uploadImage', 'insertTable',
+                    'link', 'insertImage', 'insertTable',
                     '|',
                     'bulletedList', 'numberedList', 'outdent', 'indent'
 
@@ -107,6 +124,31 @@
                         },
                     ],
                 },
+                fontFamily: {
+                    supportAllValues: true,
+                },
+                image: {
+                    toolbar: [
+                        'imageTextAlternative',
+                        'toggleImageCaption',
+                        '|',
+                        'imageStyle:inline',
+                        'imageStyle:wrapText',
+                        'imageStyle:breakText',
+                    ],
+                },
+
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells',
+                        'tableProperties',
+                        'tableCellProperties',
+                        'toggleTableCaption',
+                    ],
+                },
+
 
                 simpleUpload: {
                     // The URL that the images are uploaded to.
