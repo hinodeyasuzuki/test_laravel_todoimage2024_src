@@ -1,6 +1,5 @@
 
-
-<x-app-layout>
+<x-appedit-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             TODO作成
@@ -17,11 +16,11 @@
             </tr>
             <tr>
                 <th>概要</th>
-                <td><textarea name="description" >{{ @$todo->description }}</textarea></td>
+                <td><textarea id="editor" name="description" >{{ @$todo->description }}</textarea></td>
             </tr>
         </table>
         <a href="{{ route('todo.index') }}" class="button">戻る</a>
         <button type="submit">作成</button>
         </form>
     </div>
-</x-app-layout>
+</x-appedit-layout>
