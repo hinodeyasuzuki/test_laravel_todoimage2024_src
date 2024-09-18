@@ -3,7 +3,6 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             TODO編集
         </h2>
-        <link rel="stylesheet" href="../../assets/vendor/ckeditor5.css">
 
     </x-slot>
 
