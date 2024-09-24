@@ -27,7 +27,17 @@
 
 </head>
 
+
 <body class="font-sans antialiased">
+    <style>
+        ul{
+            padding-left: 20px;
+        }
+
+        ol{
+            padding-left: 20px;
+        }
+    </style>
     <div class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
 
@@ -42,7 +52,7 @@
 
         <!-- Page Content -->
         <main>
-            {{ $slot }}
+            {{ $slot }} 
         </main>
     </div>
 
@@ -54,16 +64,27 @@
             Heading,
             Bold,
             Italic,
+            Underline,
+            Strikethrough,
+            HorizontalLine,
+            Subscript,
+			Superscript,
             Font,
+            FontColor,
+            Mention,
+            SpecialCharacters,
+	        SpecialCharactersEssentials,
             Image,
             ImageCaption,
             ImageResize,
             ImageStyle,
             ImageToolbar,
             ImageUpload,
+            MediaEmbed,
             Link,
             List,
             ListProperties,
+            PageBreak,
             Table,
             TableColumnResize,
             TableToolbar,
@@ -72,26 +93,156 @@
             SimpleUploadAdapter
         } from 'ckeditor5';
 
+        function SpecialCharactersEmoji(editor) {
+	if (!editor.plugins.get('SpecialCharacters')) {
+		return;
+	}
 
+	// Make sure Emojis are last on the list.
+	this.afterInit = function () {
+		editor.plugins.get('SpecialCharacters').addItems('Emoji', EMOJIS_ARRAY);
+	};
+}
+
+const EMOJIS_ARRAY = [
+	{ character: '🙈', title: 'See-No-Evil Monkey' },
+	{ character: '🙄', title: 'Face With Rolling Eyes' },
+	{ character: '🙃', title: 'Upside Down Face' },
+	{ character: '🙂', title: 'Slightly Smiling Face' },
+	{ character: '😴', title: 'Sleeping Face' },
+	{ character: '😳', title: 'Flushed Face' },
+	{ character: '😱', title: 'Face Screaming in Fear' },
+	{ character: '😭', title: 'Loudly Crying Face' },
+	{ character: '😬', title: 'Grimacing Face' },
+	{ character: '😩', title: 'Weary Face' },
+	{ character: '😢', title: 'Crying Face' },
+	{ character: '😡', title: 'Pouting Face' },
+	{ character: '😞', title: 'Disappointed Face' },
+	{ character: '😜', title: 'Face with Stuck-Out Tongue and Winking Eye' },
+	{ character: '😚', title: 'Kissing Face With Closed Eyes' },
+	{ character: '😘', title: 'Face Throwing a Kiss' },
+	{ character: '😔', title: 'Pensive Face' },
+	{ character: '😒', title: 'Unamused Face' },
+	{ character: '😑', title: 'Expressionless Face' },
+	{ character: '😐', title: 'Neutral Face' },
+	{ character: '😏', title: 'Smirking Face' },
+	{ character: '😎', title: 'Smiling Face with Sunglasses' },
+	{ character: '😍', title: 'Smiling Face with Heart-Eyes' },
+	{ character: '😌', title: 'Relieved Face' },
+	{ character: '😋', title: 'Face Savoring Delicious Food' },
+	{ character: '😊', title: 'Smiling Face with Smiling Eyes' },
+	{ character: '😉', title: 'Winking Face' },
+	{ character: '😈', title: 'Smiling Face With Horns' },
+	{ character: '😇', title: 'Smiling Face with Halo' },
+	{
+		character: '😆',
+		title: 'Smiling Face with Open Mouth and Tightly-Closed Eyes',
+	},
+	{ character: '😅', title: 'Smiling Face with Open Mouth and Cold Sweat' },
+	{ character: '😄', title: 'Smiling Face with Open Mouth and Smiling Eyes' },
+	{ character: '😃', title: 'Smiling Face with Open Mouth' },
+	{ character: '😂', title: 'Face with Tears of Joy' },
+	{ character: '😁', title: 'Grinning Face with Smiling Eyes' },
+	{ character: '😀', title: 'Grinning Face' },
+	{ character: '🥺', title: 'Pleading Face' },
+	{ character: '🥵', title: 'Hot Face' },
+	{ character: '🥴', title: 'Woozy Face' },
+	{ character: '🥳', title: 'Partying Face' },
+	{ character: '🥰', title: 'Smiling Face with Hearts' },
+	{ character: '🤭', title: 'Face with Hand Over Mouth' },
+	{ character: '🤪', title: 'Zany Face' },
+	{ character: '🤩', title: 'Grinning Face with Star Eyes' },
+	{ character: '🤦', title: 'Face Palm' },
+	{ character: '🤤', title: 'Drooling Face' },
+	{ character: '🤣', title: 'Rolling on the Floor Laughing' },
+	{ character: '🤔', title: 'Thinking Face' },
+	{ character: '🤞', title: 'Crossed Fingers' },
+	{ character: '🙏', title: 'Person with Folded Hands' },
+	{ character: '🙌', title: 'Person Raising Both Hands in Celebration' },
+	{ character: '🙋', title: 'Happy Person Raising One Hand' },
+	{ character: '🤷', title: 'Shrug' },
+	{ character: '🤗', title: 'Hugging Face' },
+	{ character: '🖤', title: 'Black Heart' },
+	{ character: '🔥', title: 'Fire' },
+	{ character: '💰', title: 'Money Bag' },
+	{ character: '💯', title: 'Hundred Points Symbol' },
+	{ character: '💪', title: 'Flexed Biceps' },
+	{ character: '💩', title: 'Pile of Poo' },
+	{ character: '💥', title: 'Collision' },
+	{ character: '💞', title: 'Revolving Hearts' },
+	{ character: '💜', title: 'Purple Heart' },
+	{ character: '💚', title: 'Green Heart' },
+	{ character: '💙', title: 'Blue Heart' },
+	{ character: '💗', title: 'Growing Heart' },
+	{ character: '💖', title: 'Sparkling Heart' },
+	{ character: '💕', title: 'Two Hearts' },
+	{ character: '💔', title: 'Broken Heart' },
+	{ character: '💓', title: 'Beating Heart' },
+	{ character: '💐', title: 'Bouquet' },
+	{ character: '💋', title: 'Kiss Mark' },
+	{ character: '💀', title: 'Skull' },
+	{ character: '👑', title: 'Crown' },
+	{ character: '👏', title: 'Clapping Hands Sign' },
+	{ character: '👍', title: 'Thumbs Up Sign' },
+	{ character: '👌', title: 'OK Hand Sign' },
+	{ character: '👉', title: 'Backhand Index Pointing Right' },
+	{ character: '👈', title: 'Backhand Index Pointing Left' },
+	{ character: '👇', title: 'Backhand Index Pointing Down' },
+	{ character: '👀', title: 'Eyes' },
+	{ character: '🎶', title: 'Multiple Musical Notes' },
+	{ character: '🎊', title: 'Confetti Ball' },
+	{ character: '🎉', title: 'Party Popper' },
+	{ character: '🎈', title: 'Balloon' },
+	{ character: '🎂', title: 'Birthday Cake' },
+	{ character: '🎁', title: 'Wrapped Gift' },
+	{ character: '🌹', title: 'Rose' },
+	{ character: '🌸', title: 'Cherry Blossom' },
+	{ character: '🌞', title: 'Sun with Face' },
+	{ character: '❤️', title: 'Red Heart' },
+	{ character: '❣️', title: 'Heavy Heart Exclamation Mark Ornament' },
+	{ character: '✨', title: 'Sparkles' },
+	{ character: '✌️', title: 'Victory Hand' },
+	{ character: '✅', title: 'Check Mark Button' },
+	{ character: '♥️', title: 'Heart Suit' },
+	{ character: '☺️', title: 'Smiling Face' },
+	{ character: '☹️', title: 'Frowning Face' },
+	{ character: '☀️', title: 'Sun' },
+];
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 plugins: [
                     SimpleUploadAdapter,
                     Essentials,
-                    Paragraph, Heading, Bold, Italic,
-                    Font,
+                    Paragraph, Heading, Bold, Italic,Underline,Strikethrough,
+                    Font,HorizontalLine,
+                    Subscript,Superscript,
+                    Mention,
+                    SpecialCharacters,
+			        SpecialCharactersEssentials,
+			        SpecialCharactersEmoji,
                     Image, ImageUpload, ImageCaption, ImageResize, ImageStyle, ImageToolbar,
-
+                    MediaEmbed,
+                    PageBreak,
                     Link, Indent, IndentBlock,
                     List, ListProperties,
                     Table, TableColumnResize, TableToolbar,
 
                 ],
                 toolbar: [
-                    'undo', 'redo', '|', 'heading', 'bold', 'italic', '|',
+                    'undo', 'redo', '|', 'heading', 'bold', 'italic', 'underline','strikethrough',
+                    {
+					label: 'Basic styles',
+					icon: 'text',
+					items: [
+						'superscript',
+						'subscript',
+					    ],
+                    },
+                    
+                    'selectAll', '|',
                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
                     '|',
-                    'link', 'insertImage', 'insertTable',
+                    'link', 'insertImage', 'mediaEmbed', 'insertTable', 'specialCharacters','horizontalLine','pageBreak',
                     '|',
                     'bulletedList', 'numberedList', 'outdent', 'indent'
 
