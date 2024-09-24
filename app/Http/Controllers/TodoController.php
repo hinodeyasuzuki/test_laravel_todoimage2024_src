@@ -111,7 +111,8 @@ class TodoController extends Controller
         $extension = $file->extension();
         
         $path = 'public/images';
-        $name = $file->getClientOriginalName() . "_" . date('Ymd-His') .'_'. Str::random(5) .'.'. $extension;
+        $hankaku = preg_replace('/[^0-9a-zA-Z]/', '', $file->getClientOriginalName());
+        $name = $hankaku . "_" . date('Ymd-His') .'_'. Str::random(5) .'.'. $extension;
         $file->storeAs($path, $name);
 
         return [
